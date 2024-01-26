@@ -31,7 +31,7 @@ async function main(){
     const ourMetadata = { // TODO change those values!
         name: "Silly Dragon Token", 
         symbol: "SDT",
-        uri: "https://raw.githubusercontent.com/loopcreativeandy/video-tutorial-resources/main/metadataUpdate/metadata.json",
+        uri: "https://raw.githubusercontent.com/wafwoof/mpl_metadata_project/master/metadata.json",
     }
     const onChainData = {
         ...ourMetadata,
