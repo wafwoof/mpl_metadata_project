@@ -1,13 +1,10 @@
 
-import {Collection, CreateMetadataAccountV3InstructionAccounts, CreateMetadataAccountV3InstructionDataArgs, Creator, MPL_TOKEN_METADATA_PROGRAM_ID, UpdateMetadataAccountV2InstructionAccounts, UpdateMetadataAccountV2InstructionData, Uses, createMetadataAccountV3, updateMetadataAccountV2, findMetadataPda} from "@metaplex-foundation/mpl-token-metadata";
+import {Collection, CreateMetadataAccountV3InstructionAccounts, CreateMetadataAccountV3InstructionDataArgs, Creator, MPL_TOKEN_METADATA_PROGRAM_ID, UpdateMetadataAccountV2InstructionAccounts, UpdateMetadataAccountV2InstructionData, Uses, createMetadataAccountV3, updateMetadataAccountV2, findMetadataPda, mplTokenMetadata} from "@metaplex-foundation/mpl-token-metadata";
 import * as web3 from "@solana/web3.js";
 import { PublicKey, createSignerFromKeypair, none, signerIdentity, some } from "@metaplex-foundation/umi";
 import { createUmi } from '@metaplex-foundation/umi-bundle-defaults';
 import { fromWeb3JsKeypair, fromWeb3JsPublicKey} from '@metaplex-foundation/umi-web3js-adapters';
-
-// immediately quit
-console.info("do not run this until you are absolutely sure you want to do this!")
-//process.exit(0);
+import { create } from "domain";
 
 export function loadWalletKey(keypairFile:string): web3.Keypair {
     const fs = require("fs");
@@ -20,22 +17,21 @@ export function loadWalletKey(keypairFile:string): web3.Keypair {
 const INITIALIZE = true;
 
 async function main(){
-    console.log("Attaching metadata to ATA...");
+    console.log("let's name some tokens in 2024!");
     const myKeypair = loadWalletKey("MAKE2WcEDbCvGV61dhvRYpmavsHg9RWsVie7eo4Ufbh.json");
     const mint = new web3.PublicKey("YENufHVwowEgEavYpwqiBaeL9CFLw1DUNop8uZnEamK");
 
-    const umi = createUmi("https://api.devnet.solana.com");
+    const umi = createUmi("https://api.devnet.solana.com").use(mplTokenMetadata())
     const signer = createSignerFromKeypair(umi, fromWeb3JsKeypair(myKeypair))
     umi.use(signerIdentity(signer, true))
 
-    const ourMetadata = { // TODO change those values!
-        name: "SOLANA YEN", 
+    const ourMetadata = {
+        name: "SOLANA YEN",
         symbol: "YEN",
         uri: "https://raw.githubusercontent.com/wafwoof/mpl_metadata_project/master/metadata.json",
     }
     const onChainData = {
         ...ourMetadata,
-        // we don't need that
         sellerFeeBasisPoints: 0,
         creators: none<Creator[]>(),
         collection: none<Collection>(),
@@ -52,7 +48,7 @@ async function main(){
             data: onChainData
         }
         const txid = await createMetadataAccountV3(umi, {...accounts, ...data}).sendAndConfirm(umi);
-        console.log(txid)
+        console.log(txid);
     } else {
         const data: UpdateMetadataAccountV2InstructionData = {
             data: some(onChainData),
