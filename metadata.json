@@ -1,6 +1,6 @@
 {
-    "name": "Silly Dragon Token",
-    "symbol": "SDT",
-    "description": "Just a test for how to name your token, again and again ;)",
+    "name": "SOLANA YEN",
+    "symbol": "YEN",
+    "description": "A test stablecoin for Solana backed by the Japanese Yen.",
     "image": "https://raw.githubusercontent.com/wafwoof/mpl_metadata_project/master/yen.png"
 }
