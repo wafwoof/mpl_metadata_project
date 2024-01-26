@@ -7,7 +7,7 @@ import { fromWeb3JsKeypair, fromWeb3JsPublicKey} from '@metaplex-foundation/umi-
 
 // immediately quit
 console.info("do not run this until you are absolutely sure you want to do this!")
-process.exit(0);
+//process.exit(0);
 
 export function loadWalletKey(keypairFile:string): web3.Keypair {
     const fs = require("fs");
@@ -20,7 +20,7 @@ export function loadWalletKey(keypairFile:string): web3.Keypair {
 const INITIALIZE = true;
 
 async function main(){
-    console.log("let's name some tokens in 2024!");
+    console.log("Attaching metadata to ATA...");
     const myKeypair = loadWalletKey("MAKE2WcEDbCvGV61dhvRYpmavsHg9RWsVie7eo4Ufbh.json");
     const mint = new web3.PublicKey("YENufHVwowEgEavYpwqiBaeL9CFLw1DUNop8uZnEamK");
 
@@ -29,8 +29,8 @@ async function main(){
     umi.use(signerIdentity(signer, true))
 
     const ourMetadata = { // TODO change those values!
-        name: "Silly Dragon Token", 
-        symbol: "SDT",
+        name: "SOLANA YEN", 
+        symbol: "YEN",
         uri: "https://raw.githubusercontent.com/wafwoof/mpl_metadata_project/master/metadata.json",
     }
     const onChainData = {
